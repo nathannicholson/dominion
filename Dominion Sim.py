@@ -36,6 +36,7 @@ class Game:
             return text
         
     def new_game(self):
+        print('Welcome to Dominion! Enter help at any time to get card text.')
         if self.players == []:
             self.choose_players([])
         if self.supply == {}: 
@@ -69,7 +70,7 @@ class Game:
                            'Duchy':victory_quantity[number_of_players],'Province':victory_quantity[number_of_players],'Curse':curse_quantity[number_of_players]}
         command = self.input_handler('Enter random to choose 10 random kingdom cards for the supply, or enter custom to choose your own: ',['random','custom'])
         if command == 'random':
-            kingdoms_chosen = sorted(random.sample([card for card in self.card_dict.values() if card.is_kingdom],10),key = lambda card: card.name)
+            kingdoms_chosen = sorted(random.sample([card for card in self.card_dict.values() if card.is_kingdom],10),key = lambda card: card.cost)
             for card in kingdoms_chosen:
                 if 'Victory' in card.type:
                     self.supply[card.name] = victory_quantity[number_of_players]
@@ -87,14 +88,16 @@ class Game:
                     self.supply[target.name] = 10
                 kingdom_count += 1
             print('Finished choosing kingdoms, starting game')
+            
+    def display_supply(self):
+        return self.supply
                 
     def play_game(self,from_save = False):
-        print(str('Welcome to Dominion! \nPlayers: '+', '.join([player.name for player in self.players])+'\nEnter Help at any time to get card text.'))
+        print(str('Game begins! \nPlayers: '+', '.join([player.name for player in self.players])+'\nEnter Help at any time to get card text.'))
         if from_save == False:
             for player in self.players:
                 player.set_starting_deck()
                 player.draw(5)
-
         while self.running:
             self.save_game()
             if self.input_handler('Continue? Enter Y to keep playing or N to quit: ',['y','n'])=='n':
@@ -107,10 +110,7 @@ class Game:
                     self.running = False
                     self.end()
                     break
-                
-    def display_supply(self):
-        return self.supply
-    
+
     def save_game(self):
         save_file = shelve.open(self.game_name)
         save_file['Name'] = self.game_name
@@ -132,7 +132,7 @@ class Game:
             print(player.name,': ',str(player.victory_points),' victory points',sep='')
 
 class Player:
-    def __init__(self,name, hand,discard_pile, deck):
+    def __init__(self,name, hand, discard_pile, deck):
         self.victory_points = 0
         self.hand = hand
         self.discard_pile = discard_pile
@@ -669,7 +669,7 @@ def load_game(filename):
 master_card_dict = {'gold':Gold(),'silver':Silver(),'copper':Copper(),'estate':Estate(),'duchy':Duchy(),'province':Province(),
              'smithy':Smithy(),'village':Village(),'cellar':Cellar(),'moat':Moat(),'harbinger':Harbinger(),'moneylender':Moneylender(),'council room':CouncilRoom(),'throne room':ThroneRoom(),'curse':Curse(),'witch':Witch(),'chapel':Chapel(),'vassal':Vassal(),'market':Market(),'workshop':Workshop()}
 
-mygame = Game('My game',master_card_dict,{},[],[])
+mygame = Game('My game',master_card_dict,{},[],[])  
 
 mygame.new_game()
 
