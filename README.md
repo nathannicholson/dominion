@@ -1,8 +1,12 @@
 # Dominion
-This is a simple scripting project that allows users to play a text-based approximation of Donald X. Vaccarino's card game Dominion. It assumes knowledge of the rules of Dominion. 
+This is a simple scripting practice project that allows users to play a text-based approximation of Donald X. Vaccarino's card game Dominion. It assumes knowledge of the rules of Dominion.
 
 # Playing the game
-Unmodified, the script when run will start a new game and prompt the user to add players. (I recommend 2-4 players.) All players are human-controlled (computer players coming soon!) To view card descriptions, enter "help" followed by a card name. Inputs are not case-sensitive. 
+Unmodified, the script when run will start a new game and prompt the user to add players and kingdoms. I recommend 2-4 players and a random choice of kingdoms. All players are human-controlled (computer players coming soon!) 
+
+To view card descriptions, enter "help" at any prompt. 
+
+Inputs are not case-sensitive. 
 
 # Features and program description
 The game currently implements 13 Kingdom cards (all from the Dominion base set) in addition to the basic treasure, victory, and curse cards. A goal was to make the code modular and extensible. It will be straightforward to add rule-based AI players on top of the existing code, for example. 
